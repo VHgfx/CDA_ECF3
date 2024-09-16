@@ -18,13 +18,8 @@ function login(){
         $user = new User();
         $user->email = $_POST['email'];
         $user->password = $_POST['password'];
-
-        var_dump($user);
             
         $og_password = $user->retrievePassword();
-
-        var_dump($og_password);
-
 
         if(password_verify($user->password,$og_password)){
             $result_infos = $user->infos();

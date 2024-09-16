@@ -13,7 +13,7 @@ class EventParticipants extends Database
 
 
     public function add(){
-        $query = "INSERT INTO `event_participants` (`email`, `firstname`, `lastname`, `id_user`, `id_events`) 
+        $query = "INSERT INTO `event_inscriptions` (`email`, `firstname`, `lastname`, `id_user`, `id_events`) 
                             VALUES (:email, :firstname, :lastname, :id_user, :id_events)";
         try{
             $stmt = $this->db->prepare($query);
@@ -43,8 +43,10 @@ class EventParticipants extends Database
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(":id_events", $this->id_events, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $stmt->execute();
+            return $result;
         } catch (PDOException $e) {
             return false;
         }

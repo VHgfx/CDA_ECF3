@@ -2,7 +2,8 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-require_once('UserFunctions.php');
+require_once('EventFunctions.php');
+$list_events = getListEvents();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = isset($_POST['action']) ? $_POST['action'] : '';
@@ -17,15 +18,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if(!empty($action)){
         switch ($action) {
-            case 'login':  
-                $login_result = login();
+            case 'addEvent':  
+                $add_event_result = addEvent();
                 header("Location: " . $_SERVER['PHP_SELF']);
                 break;
 
-            case 'logout':  
-                session_destroy();
+            case 'selectEvent':  
+                $get_event_infos_result = getEventInfos();
+
+                break;
+
+            case 'subscribeEvent':  
+                $subscribe_result = subscribeEvent();
                 header("Location: " . $_SERVER['PHP_SELF']);
-                exit;
+                break;
         }
         $action = null;
         $type = null;
