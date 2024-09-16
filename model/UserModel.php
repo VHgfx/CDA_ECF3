@@ -31,14 +31,55 @@ class User extends Database
     }
 
     public function login(){
-        $query = "SELECT * FROM user WHERE email = :email AND password = :password";
+        $query = "SELECT user.*, roles.role_nom
+        FROM user 
+        JOIN roles ON user.id_roles = roles.id
+        WHERE email = :email AND password = :password";
         try{
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
             $stmt->bindValue(":password", $this->password, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            return $stmt->execute();
+            return $result;
         } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function infos(){
+        $query = "SELECT user.*, roles.role_nom
+        FROM user 
+        JOIN roles ON user.id_roles = roles.id
+        WHERE email = :email";
+        try{
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(":email", $this->email, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    function retrievePassword(){
+        try {
+            $query = 'SELECT password FROM user WHERE email = :email';
+            $stmt = $this->db->prepare($query);
+            $stmt -> bindValue(':email', $this->email, PDO::PARAM_STR);
+            $stmt -> execute();
+
+            $result = $stmt -> fetch(PDO::FETCH_ASSOC);
+
+            if ($result) {
+                return $result['password'];
+            } else {
+                return false;
+            }
+        } catch (PDOException $e){
             return false;
         }
     }
