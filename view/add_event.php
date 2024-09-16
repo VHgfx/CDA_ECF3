@@ -24,3 +24,9 @@ require_once(__DIR__.'/../controller/EventController.php'); ?>
 </form>
 
 
+<?php if (isset($_SESSION['add_event_result']) && !empty($_SESSION['add_event_result'])): ?>
+    <p><?= $_SESSION['add_event_result'] ?></p>
+    <?php unset($_SESSION['add_event_result']); ?>
+<?php endif; ?>
+
+

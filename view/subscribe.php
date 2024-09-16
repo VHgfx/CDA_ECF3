@@ -5,8 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once(__DIR__ . '/../controller/EventController.php');
 ?>
 
-<?php include_once(__DIR__.'/navbar.php'); ?>
-
 <h3>S'inscrire à un évènement</h3>
 
 <form method="POST" role="form" id="subscribeEventForm" action="">
@@ -20,7 +18,7 @@ require_once(__DIR__ . '/../controller/EventController.php');
     <?php if (isset($_SESSION['user'])): ?>
         <input type="hidden" name="lastname" value="<?= $_SESSION['user']['lastname'] ?>"></input>
         <input type="hidden" name="firstname" value="<?= $_SESSION['user']['firstname'] ?>"></input>
-        <input type="hidden" name="email" value="<?=$_SESSION['user']['email'] ?>" ?>></input>
+        <input type="hidden" name="email" value="<?= $_SESSION['user']['email'] ?>" ?>></input>
     <?php else: ?>
         <label for="lastname">Nom</label>
         <input type="text" name="lastname"></input>
@@ -31,3 +29,8 @@ require_once(__DIR__ . '/../controller/EventController.php');
     <?php endif; ?>
     <input type="submit" target="_self" name="isSendSubscribe" value="S'inscrire à l'évènement"></input>
 </form>
+
+<?php if (isset($_SESSION['subscribe_result']) && !empty($_SESSION['subscribe_result'])): ?>
+    <p><?= $_SESSION['subscribe_result'] ?></p>
+    <?php unset($_SESSION['subscribe_result']); ?>
+<?php endif; ?>
