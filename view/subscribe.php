@@ -59,7 +59,7 @@ require_once(__DIR__ . '/../controller/EventController.php');
         if (eventId) {
             $.ajax({
                 type: 'POST',
-                url: '../controller/EventController',
+                url: './controller/EventController',
                 data: {
                     action: 'getEventDetails',
                     select_event_id: eventId
