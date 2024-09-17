@@ -18,7 +18,7 @@ require_once(__DIR__ . '/../controller/EventController.php');
     <?php if (isset($_SESSION['user'])): ?>
         <input type="hidden" name="lastname" value="<?= $_SESSION['user']['lastname'] ?>"></input>
         <input type="hidden" name="firstname" value="<?= $_SESSION['user']['firstname'] ?>"></input>
-        <input type="hidden" name="email" value="<?= $_SESSION['user']['email'] ?>" ?>></input>
+        <input type="hidden" name="email" value="<?= $_SESSION['user']['email'] ?>"></input>
     <?php else: ?>
         <label for="lastname">Nom</label>
         <input type="text" name="lastname" required></input>

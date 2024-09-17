@@ -8,9 +8,15 @@ require_once __DIR__.'/../model/EventParticipantsModel.php';
 
 function addEvent(){
     try {
-
         if(checkRequired(['event_name', 'event_debut', 'event_fin', 'description']) == false){
             throw new Exception("Un des champs obligatoire est vide");
+        }
+
+        $event_debut = new DateTime($_POST['event_debut']);
+        $event_fin = new DateTime($_POST['event_fin']);
+
+        if($event_fin < $event_debut){
+            throw new Exception("La date de fin de l'évènement doit être supérieure à la date de début");
         }
 
         $event = new Event();
@@ -24,7 +30,7 @@ function addEvent(){
         if($result == false){
             throw new Exception("Erreur lors de l'ajout de l'évènement");
         } else {
-            return true;
+            return "Ajout réussi";
         }
     } catch (Exception $e) {
         return $e->getMessage();
@@ -84,12 +90,16 @@ function subscribeEvent(){
         $eventParticipants->firstname = $_POST['firstname'];
         $eventParticipants->email = $_POST['email'];
         $eventParticipants->id_user = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : null;
+
+        if($eventParticipants->boolEmail()){
+            throw new Exception("Vous êtes déjà inscrit(e) à cet évènement");
+        }
         $result = $eventParticipants->add();
 
         if($result == false){
             throw new Exception("Erreur lors de l'inscription à l'évènement");
         } else {
-            return true;
+            return "Inscription réussie";
         }
     } catch (Exception $e) {
         return $e->getMessage();

@@ -19,16 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!empty($action)){
         switch ($action) {
             case 'addEvent':  
-                $_SESSION['add_event_result'] = addEvent() == true ? "Ajout réussi" : "Ajout échoué";
+                $_SESSION['add_event_result'] = addEvent();
                 break;
 
             case 'selectEvent':  
                 $get_event_infos_result = getEventInfos();
-
                 break;
 
             case 'subscribeEvent':  
-                $_SESSION['subscribe_result'] = subscribeEvent() == true ? "Inscription réussie" : "Inscription échouée";
+                $_SESSION['subscribe_result'] = subscribeEvent();
                 break;
         }
         $action = null;

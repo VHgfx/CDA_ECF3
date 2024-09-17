@@ -53,4 +53,24 @@ class EventParticipants extends Database
             return false;
         }
     }
+
+    public function boolEmail(){
+        $query = "SELECT id 
+                FROM event_inscriptions
+                WHERE email = :email 
+                AND id_events = :id_events";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $stmt->bindValue(":id_events", $this->id_events, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $count = $stmt->fetchColumn();
+
+            return ($count >= 1);
+        } catch (PDOException $e) {
+            throw new Exception("Error checking pointage: " . $e->getMessage());
+        }
+    }
 }
