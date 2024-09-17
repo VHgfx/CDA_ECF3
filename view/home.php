@@ -17,5 +17,7 @@ if(!isset($_SESSION['user']) || empty($_SESSION['user'])) :?>
 <?php include_once(__DIR__.'/subscribe.php');
 
 if(isset($_SESSION['user']) || !empty($_SESSION['user'])){
-    include_once(__DIR__.'/add_event.php');
+    if($_SESSION['user']['role_nom'] == 'Administrateur'){
+        include_once(__DIR__.'/add_event.php');
+    }
 } 
