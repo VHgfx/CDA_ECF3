@@ -21,11 +21,11 @@ require_once(__DIR__ . '/../controller/EventController.php');
         <input type="hidden" name="email" value="<?= $_SESSION['user']['email'] ?>" ?>></input>
     <?php else: ?>
         <label for="lastname">Nom</label>
-        <input type="text" name="lastname"></input>
+        <input type="text" name="lastname" required></input>
         <label for="firstname">Prénom</label>
-        <input type="text" name="firstname"></input>
+        <input type="text" name="firstname" required></input>
         <label for="email">Email</label>
-        <input type="email" name="email"></input>
+        <input type="email" name="email" required></input>
     <?php endif; ?>
     <input type="submit" target="_self" name="isSendSubscribe" value="S'inscrire à l'évènement"></input>
 </form>

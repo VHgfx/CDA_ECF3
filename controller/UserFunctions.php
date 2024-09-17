@@ -20,6 +20,9 @@ function login(){
         $user->password = $_POST['password'];
             
         $og_password = $user->retrievePassword();
+        if(empty($og_password)) {
+            throw new Exception("Mauvais email");
+        }
 
         if(password_verify($user->password,$og_password)){
             $result_infos = $user->infos();

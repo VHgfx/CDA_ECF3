@@ -19,8 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!empty($action)){
         switch ($action) {
             case 'addEvent':  
-                $_SESSION['add_event_result'] = subscribeEvent() == true ? "Ajout réussi" : "Ajout échoué";
-                header("Location: " . $_SERVER['PHP_SELF']);
+                $_SESSION['add_event_result'] = addEvent() == true ? "Ajout réussi" : "Ajout échoué";
                 break;
 
             case 'selectEvent':  
@@ -30,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             case 'subscribeEvent':  
                 $_SESSION['subscribe_result'] = subscribeEvent() == true ? "Inscription réussie" : "Inscription échouée";
-                header("Location: " . $_SERVER['PHP_SELF']);
                 break;
         }
         $action = null;

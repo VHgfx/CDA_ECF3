@@ -8,5 +8,8 @@ if(!isset($_SESSION['user']) || empty($_SESSION['user'])){
 } else {
     include_once(__DIR__.'/navbar.php');
 }
-
 include_once(__DIR__.'/subscribe.php');
+
+if(isset($_SESSION['user']) || !empty($_SESSION['user'])){
+    include_once(__DIR__.'/add_event.php');
+} 

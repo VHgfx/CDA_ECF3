@@ -18,8 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(!empty($action)){
         switch ($action) {
             case 'login':  
-                $login_result = login();
-                header("Location: " . $_SERVER['PHP_SELF']);
+                $_SESSION['login_result'] = login();
+                if($_SESSION['login_result'] == true) {
+                    header("Location: " . $_SERVER['PHP_SELF']);
+                }
                 break;
 
             case 'logout':  

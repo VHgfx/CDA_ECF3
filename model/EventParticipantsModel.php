@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 
 class EventParticipants extends Database
 {
