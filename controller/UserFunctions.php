@@ -18,13 +18,11 @@ function login(){
         $user = new User();
         $user->email = $_POST['email'];
         $user->password = $_POST['password'];
-
-        var_dump($user);
             
         $og_password = $user->retrievePassword();
-
-        var_dump($og_password);
-
+        if(empty($og_password)) {
+            throw new Exception("Mauvais email");
+        }
 
         if(password_verify($user->password,$og_password)){
             $result_infos = $user->infos();
@@ -32,6 +30,33 @@ function login(){
             return true;
         } else {
             throw new Exception("Mauvais mot de passe");        }
+    } catch (Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function inscription(){
+    try {
+        if(checkRequired(['firstname', 'lastname', 'email', 'password']) == false){
+            throw new Exception("Un des champs obligatoire est vide");
+        }
+
+        $user = new User();
+        $user->firstname = $_POST['firstname'];
+        $user->lastname = $_POST['lastname'];
+        $user->email = $_POST['email'];
+        $user->password = $_POST['password'];
+        $user->id_roles = 2;
+
+        if($user->boolEmail()){
+            throw new Exception("Cet email est déjà utilisé");
+        }
+
+        if($user->add()){
+            return "Inscription réussie, vous pouvez vous connecter";
+        } else {
+            throw new Exception("Une erreur est survenue lors de l'inscription");
+        }
     } catch (Exception $e) {
         return $e->getMessage();
     }

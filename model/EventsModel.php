@@ -1,7 +1,9 @@
 <?php
 require_once 'db.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-class Events extends Database
+
+class Event extends Database
 {
     public $id;
     public $event_name;
@@ -27,6 +29,40 @@ class Events extends Database
             return $stmt->execute();
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public function getAllBaseInfos()
+    {
+        $query = "SELECT id, event_name
+            FROM events";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    public function getEventInfos()
+    {
+        $query = "SELECT events.*,
+            user.firstname, user.lastname
+            FROM events
+            JOIN user ON user.id = events.id_user
+            WHERE events.id = :id";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(":id", $this->id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (PDOException $e) {
+            return [];
         }
     }
 }

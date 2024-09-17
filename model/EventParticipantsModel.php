@@ -1,5 +1,7 @@
 <?php
 require_once 'db.php';
+require __DIR__ . '/../vendor/autoload.php';
+
 
 class EventParticipants extends Database
 {
@@ -13,7 +15,7 @@ class EventParticipants extends Database
 
 
     public function add(){
-        $query = "INSERT INTO `event_participants` (`email`, `firstname`, `lastname`, `id_user`, `id_events`) 
+        $query = "INSERT INTO `event_inscriptions` (`email`, `firstname`, `lastname`, `id_user`, `id_events`) 
                             VALUES (:email, :firstname, :lastname, :id_user, :id_events)";
         try{
             $stmt = $this->db->prepare($query);
@@ -43,10 +45,32 @@ class EventParticipants extends Database
         try {
             $stmt = $this->db->prepare($query);
             $stmt->bindValue(":id_events", $this->id_events, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return $stmt->execute();
+            return $result;
         } catch (PDOException $e) {
             return false;
+        }
+    }
+
+    public function boolEmail(){
+        $query = "SELECT id 
+                FROM event_inscriptions
+                WHERE email = :email 
+                AND id_events = :id_events";
+        try {
+            $stmt = $this->db->prepare($query);
+            $stmt->bindValue(":email", $this->email, PDO::PARAM_STR);
+            $stmt->bindValue(":id_events", $this->id_events, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            $count = $stmt->fetchColumn();
+
+            return ($count >= 1);
+        } catch (PDOException $e) {
+            throw new Exception("Error checking pointage: " . $e->getMessage());
         }
     }
 }
