@@ -29,6 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             case 'subscribeEvent':  
                 $_SESSION['subscribe_result'] = subscribeEvent();
                 break;
+
+            case 'getEventDetails':
+                $get_event_details_result = json_encode(getEventInfos());
+                echo $get_event_details_result;
+                break;
         }
         $action = null;
         $type = null;

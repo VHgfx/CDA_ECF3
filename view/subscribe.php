@@ -34,3 +34,65 @@ require_once(__DIR__ . '/../controller/EventController.php');
     <p><?= $_SESSION['subscribe_result'] ?></p>
     <?php unset($_SESSION['subscribe_result']); ?>
 <?php endif; ?>
+
+<table id="eventDetailsTable">
+    <thead>
+        <tr>
+            <th>Nom de l'évènement</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Description</th>
+            <th>Auteur</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            
+        </tr>
+    </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $('#select_event_id').on('change', function () {
+        var eventId = $(this).val();
+        if (eventId) {
+            $.ajax({
+                type: 'POST',
+                url: '../controller/EventController',
+                data: {
+                    action: 'getEventDetails',
+                    select_event_id: eventId
+                },
+                success: function (response) {
+                    try {
+                        var eventDetails = JSON.parse(response); 
+
+                        if (eventDetails[0]) {
+                            $('#eventDetailsTable tbody').html(`
+                            <tr>
+                                <td>${eventDetails[0].event_name}</td>
+                                <td>${eventDetails[0].event_debut}</td>
+                                <td>${eventDetails[0].event_fin}</td>
+                                <td>${eventDetails[0].description}</td>
+                                <td>${eventDetails[0].firstname} ${eventDetails[0].lastname}</td>
+                            </tr>
+                        `);
+                        } else {
+                            $('#eventDetailsTable tbody').html('<tr><td colspan="5">Aucune information enregistrée</td></tr>');
+                        }
+                    } catch (error) {
+                        console.error("Error parsing JSON:", error); 
+                        console.log("Received response (likely not JSON):", response);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error: ' + error);
+                }
+            });
+        } else {
+            $('#eventDetailsTable tbody').html('<tr><td colspan="5">Veuillez sélectionner un évènement</td></tr>');
+        }
+    });
+
+</script>

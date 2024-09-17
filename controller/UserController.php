@@ -24,7 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
 
+            case 'inscription':  
+                $_SESSION['inscription_result'] = inscription();
+                break;
+
             case 'logout':  
+                unset($_SESSION);
                 session_destroy();
                 header("Location: " . $_SERVER['PHP_SELF']);
                 exit;
